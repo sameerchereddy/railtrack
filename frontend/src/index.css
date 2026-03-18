@@ -1,0 +1,37 @@
+@import 'leaflet/dist/leaflet.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  html, body, #root { height: 100%; height: -webkit-fill-available; margin: 0; padding: 0; }
+  html { height: -webkit-fill-available; }
+  body { background: #080c14; color: #e2e8f0; font-family: Inter, system-ui, -apple-system, sans-serif; min-height: -webkit-fill-available; }
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #1e2d45; border-radius: 4px; }
+  * { scrollbar-width: thin; scrollbar-color: #1e2d45 transparent; }
+}
+
+@layer utilities {
+  .leaflet-popup-content-wrapper {
+    background: rgba(15,22,35,0.97) !important;
+    border: 1px solid #1e2d45 !important;
+    border-radius: 8px !important;
+    color: #e2e8f0 !important;
+    font-family: Inter, system-ui, sans-serif !important;
+    font-size: 12px !important;
+  }
+  .leaflet-popup-tip { background: #1e2d45 !important; }
+  .leaflet-bar a { background: #0f1623 !important; border-color: #1e2d45 !important; color: #94a3b8 !important; }
+  .leaflet-bar a:hover { background: #161e2e !important; color: #e2e8f0 !important; }
+  .train-map-icon { font-size: 22px; line-height: 1; filter: drop-shadow(0 0 10px rgba(59,130,246,0.9)); display: block; transform: scaleX(-1); animation: mapLoco 1.6s ease-in-out infinite; }
+  @keyframes mapLoco { 0%,100% { transform: scaleX(-1) translateY(0); } 50% { transform: scaleX(-1) translateY(-4px); } }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 0 3px rgba(34,197,94,0.2); } 50% { box-shadow: 0 0 0 7px rgba(34,197,94,0.04); } }
+  @keyframes trackPulse { 0% { transform: scale(0.6); opacity: 0.6; } 100% { transform: scale(1.8); opacity: 0; } }
+  @keyframes locoBounce { 0%,100% { transform: translateY(0) scaleX(-1); } 50% { transform: translateY(-4px) scaleX(-1); } }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes flashNew { 0% { background: rgba(59,130,246,0.15); } 100% { background: transparent; } }
+}

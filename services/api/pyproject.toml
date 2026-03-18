@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "railtrack-api"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.111.0",
+    "uvicorn[standard]>=0.29.0",
+    "motor>=3.4.0",
+    "pydantic-settings>=2.2.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/api"]

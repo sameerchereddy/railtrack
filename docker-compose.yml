@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:7.0
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: railtrack
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  feed:
+    build: ./services/feed
+    volumes:
+      - ./shared:/shared:ro
+      - ipc_data:/tmp
+    env_file: .env
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_DB: railtrack
+      SHARED_PATH: /shared
+      IPC_SOCKET: /tmp/nr_feed.sock
+    depends_on:
+      mongo:
+        condition: service_healthy
+    restart: unless-stopped
+
+  api:
+    build: ./services/api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./shared:/shared:ro
+      - ipc_data:/tmp
+    env_file: .env
+    environment:
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_DB: railtrack
+      SHARED_PATH: /shared
+      IPC_SOCKET: /tmp/nr_feed.sock
+      CORS_ORIGINS: '["http://localhost:5173","http://localhost:3000"]'
+    depends_on:
+      mongo:
+        condition: service_healthy
+      feed:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  mongo_data:
+  ipc_data:
