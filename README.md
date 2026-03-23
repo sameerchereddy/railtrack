@@ -4,12 +4,9 @@
 
 Rail Track pulls live train movement data from the Network Rail open data feed and puts every active train in Great Britain on an animated map — right now, moving, colour-coded by how late it is. Click any dot and you get the full journey drawn out: where it's been, where it's going, stop by stop.
 
-<table>
-  <tr>
-    <td><img src="docs/sample_1.png" alt="Live map with train dots" /></td>
-    <td><img src="docs/sample_2.png" alt="Journey detail on click" /></td>
-  </tr>
-</table>
+![Live map with train dots](artifacts/sample_1.png)
+
+![Journey detail on click](artifacts/sample_2.png)
 
 ---
 
@@ -155,4 +152,18 @@ railtrack/
 
 ---
 
-See [developer-instructions.md](developer-instructions.md) for setup, environment variables, and how to run the app.
+## Testing
+
+```bash
+# Feed service
+cd services/feed && python -m pytest tests/ -v
+
+# Frontend
+cd frontend && npm test
+```
+
+Tests cover the feed state machine (`update_train_from_event`), STANOX resolution fallback chain, and client-side position interpolation. See [docs/testing-infrastructure.md](docs/testing-infrastructure.md) for the full picture.
+
+---
+
+See [docs/developer-instructions.md](docs/developer-instructions.md) for setup, environment variables, and how to run the app.
