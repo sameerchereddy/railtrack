@@ -48,6 +48,27 @@ A real-time live train map. The feed service consumes Network Rail STOMP events,
 
 ---
 
+## Testing
+
+Every new function or module should have unit tests alongside it. Follow the existing patterns:
+
+- **Python** — add tests to `services/feed/tests/` (or create `services/api/tests/` for API logic). Use builder functions for event/state fixtures rather than inline dicts. Run with `python -m pytest tests/ -v`.
+- **TypeScript** — add test files under `src/**/__tests__/`. Pure logic tests use `environment: 'node'` (the default). Tests that need the DOM add `// @vitest-environment jsdom` at the top of the file. Run with `npm test`.
+
+**What always needs tests:**
+- Any new state machine transition in `processor.py`
+- Any new fallback or resolution logic (STANOX, timestamps, status mapping)
+- Any pure utility function added to `frontend/src/lib/`
+
+**What doesn't need unit tests:**
+- FastAPI route handlers — these need integration tests with a real or mocked DB, not unit tests
+- React components — test behaviour through `@testing-library/react`, not implementation details
+- IPC/WebSocket plumbing — these are integration concerns
+
+See [docs/testing-infrastructure.md](../docs/testing-infrastructure.md) for context on test design decisions.
+
+---
+
 ## Naming conventions
 
 | Thing | Convention |
